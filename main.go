@@ -35,19 +35,10 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 func contactHandler(w http.ResponseWriter, r *http.Request) {
 	tplPath := filepath.Join("templates", "contact.gohtml")
 	executeTemplate(w, tplPath)
-
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, `<h1> Frequently asked questions</h1>
-	 <ul>
-	   <li>is there a free version for this ? Yes! we offer a trial of 30 days for any paid plan.</li>
-	 </ul>
-	 <ul>
-	   <li> Are there any prerequisites ? Absolutely not! we explain everything from ground up.</li>
-     </ul>
-     `)
+	executeTemplate(w, filepath.Join("templates", "faq.gohtml"))
 }
 
 func main() {
