@@ -2,29 +2,23 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 
+	"github.com/ChabuChabu/lenslocked/views"
 	"github.com/go-chi/chi/v5"
 	// "golang.org/x/tools/go/analysis/passes/nilfunc"
 )
 
 func executeTemplate(w http.ResponseWriter, filepath string) {
-	w.Header().Set("Content-Type", "text/html;charset=utf-8")
-	tpl, err := template.ParseFiles(filepath)
+	t, err := views.Parse(filepath)
 	if err != nil {
 		log.Printf("Parsing templete: %v", err)
 		http.Error(w, "There is an error parsing the template.", http.StatusInternalServerError)
 		return
 	}
-	err = tpl.Execute(w, nil)
-	if err != nil {
-		log.Printf("Executing templete: %v", err)
-		http.Error(w, "There is an error executing the template.", http.StatusInternalServerError)
-		return
-	}
+	t.Execute(w, nil)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
